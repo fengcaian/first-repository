@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>贪吃蛇</title>
+<script type="text/javascript">
+window.onload = function(){
+	drawTable(5,4);
+	
+}
+
+function drawTable(cols,rows){
+	var table = document.createElement('table');
+	table.setAttribute('border', 'solid 1px');
+	table.setAttribute('cellspacing', '0');
+	table.setAttribute('cellpadding', '0');
+	table.setAttribute('float', 'center');
+	var body = document.getElementById('div');
+	var random = Math.random(1,5);
+	console.log(random);
+	for(var i=0;i<rows;i++){
+		var row = document.createElement('tr');
+		for(var j=0;j<cols;j++){
+			var col = document.createElement('td');
+			col.setAttribute('width', 100);
+			col.setAttribute('height', 100);
+			row.appendChild(col);
+		}
+		table.appendChild(row);
+	}
+		
+	body.appendChild(table);
+}
+</script>
+</head>
+<body>
+<div id='div' style="text-align: center;"></div>
+</body>
+</html>

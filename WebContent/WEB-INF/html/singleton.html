@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>单例模式</title>
+<script type='text/javascript'>
+function Universe() {
+	  // 判断是否存在实例
+	  if (typeof Universe.instance === 'object') {
+	    console.log('2');
+	    return Universe.instance;
+	  }  // 其它内容
+
+	  this.start_time = 0;
+	  this.bang = 'Big';
+	  console.log('1');
+	  // 缓存
+	  Universe.instance = this;
+	  console.log(Universe);
+	  var u = arguments.callee;
+	  console.log('u='+u);
+	  var u2 = Universe.caller;
+	  console.log('u2='+u2);
+	  // 隐式返回this
+	}// 测试
+
+	var uni = new Universe();
+	console.log(Universe.instance.bang);
+	var uni2 = new Universe();
+	console.log(uni === uni2); // true
+	
+	
+	function func1(){
+		var ca = func1.caller;
+		console.log('ca='+ca);
+	};
+	function func2(){
+		func1();
+	}
+	
+	func2();
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

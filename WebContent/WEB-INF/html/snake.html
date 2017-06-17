@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../../js/jquery-1.9.1.js"></script>
+<style type="text/css">
+	.div1{
+		width:700px;
+		height:500px;
+		border:1px solid grey;
+	}
+	.td{
+		border:1px solid grey;
+	}
+</style>
+<script type="text/javascript">
+$().ready(function(){
+	var trList = $("table").find("tr");//获得所有的tr
+	var xNum;//横坐标方向格子数目
+	var yNum = trList.length;//纵坐标方向格子数目
+	var id = "id";
+	var array = new Array();//蛇体
+	var arrayPass = new Array();//经过的格子
+	var randomX,randomY;
+	var randomId;
+	var flag = 0;//点击一次开始按钮置为1；
+	var m = 3;
+	var direction = 'right';//运动方向
+	for(var i=0;i<trList.length;i++){
+		var tdList = $(trList[i]).find("td");//获得每一行的所有td
+		xNum = tdList.length;
+		for(var j=0;j<tdList.length;j++){
+			$(tdList[j]).attr("id",i+'x'+j);
+			tdList[j].innerHTML = i+'x'+j;
+			if(i==2){
+				if(j==3){
+					//$(tdList[j]).attr("bgcolor","red");
+					array.push(i+'x'+j);//将头部放入list
+					$(tdList[j]).attr("id",i+'x'+j);
+					draw(array,arrayPass);
+				}
+			}
+		}
+	}
+	init();
+	changeDirection();
+	$("#btnStart").click(function(){
+		/* var direct = keyEvent(direction);  */
+		var time = setInterval(move,1000);
+	});
+	
+	function move(){
+		var length = array.length;
+		var str = array[length-1].split('x');
+		var posY = str[1];
+		var posX = str[0];
+		var random = randomId.split('x');
+		console.log('direction='+direction);
+		if(direction == 'right'){
+			if(Number(posY)+2<=xNum){
+				str[1] = Number(posY)+1;
+				str = str.join('x');
+				array.push(str);
+				if(randomId == str){//遇到食物，需要吃掉
+					init();
+				}else{
+					arrayPass.push(array.shift());
+				}
+				console.log(array);
+				draw(array,arrayPass);
+				arrayPass.shift();
+				console.log(posY);
+			}else{
+				alert('到头了right');
+				window.location.reload();
+			}
+		}else if(direction == 'left'){
+			if(Number(posY)>=0){
+				str[1] = Number(posY)-1;
+				str = str.join('x');
+				array.push(str);
+				if(randomId == str){//遇到食物，需要吃掉
+					init();//生成食物
+				}else{
+					arrayPass.push(array.shift());
+				}
+				console.log(array);
+				draw(array,arrayPass);
+				arrayPass.shift();
+				console.log(posY);
+				
+			}else{
+				alert('到头了left');
+				window.location.reload();
+			}
+		}else if(direction == 'up'){
+			if(Number(posX)>0){
+				str[0] = Number(posX)-1;
+				str = str.join('x');
+				array.push(str);
+				if(randomId == str){
+					init();
+				}else{
+					arrayPass.push(array.shift());
+				}
+				draw(array,arrayPass);
+				arrayPass.shift();
+				console.log('posX='+posX);
+			}else{
+				alert('到头了up');
+				window.location.reload();
+			}
+		}else if(direction == 'down'){
+			if(Number(posX)<=yNum){
+				str[0] = Number(posX)+1;
+				str = str.join('x');
+				array.push(str);
+				if(randomId == str){
+					init();
+				}else{
+					arrayPass.push(array.shift());
+				}
+				draw(array,arrayPass);
+				arrayPass.shift();
+				console.log('posX='+posX);
+			}else{
+				alert('到头了down');
+				window.location.reload();
+			}
+		}
+	}
+	
+	function changeDirection(){
+		document.onkeydown = function(event){
+			var e = event || window.event || arguments.callee.caller.arguments[0];
+			if(e && e.keyCode==38){ // 按 up 
+				direction = 'up';
+			}
+			if(e && e.keyCode==37){ // 按 left
+				direction = "left";
+			}
+			if(e && e.keyCode==40){ // 按 down
+				direction = "down";
+			}
+			if(e && e.keyCode==39){ // 按 right
+				direction = "right";
+			}
+		}
+	}
+	
+	
+	function init(){
+		randomX = parseInt(Math.random()*10%yNum);
+		randomY = parseInt(Math.random()*10%xNum);
+		randomId = randomX+'x'+randomY;
+		if($("#"+randomId).attr("bgcolor") == "red"){//保证随机出现的位置不和head重合
+			randomX = parseInt(Math.random()*10%yNum);
+			randomY = parseInt(Math.random()*10%xNum);
+			randomId = randomX+'x'+randomY;
+		}else{
+			$("#"+randomId).attr("bgcolor","green");//食物
+		}
+	}
+	
+	function draw(arr,arrPass){
+		console.log(arr);
+		for(var i=0;i<arr.length;i++){
+			$('#'+arr[i]).attr("bgcolor","red");
+		}
+		for(var j=0;j<arrPass.length;j++){
+			$('#'+arrPass[j]).attr("bgcolor","white");
+		}
+	}
+	
+	function cleanDraw(){
+		
+	}
+})
+</script>
+</head>
+<body>
+	<table class="div1" cellspacing="0" cellpadding="0">
+		<tr>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+		</tr>
+		<tr>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+		</tr>
+		<tr>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+		</tr>
+		<tr>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+		</tr>
+		<tr>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+		</tr>
+		<tr>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+		</tr>
+		<tr>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+			<td class="td"></td><td class="td"></td><td class="td"></td><td class="td"></td>
+		</tr>
+	</table>
+	<input type="button" value="开始" id="btnStart">
+
+</body>
+</html>

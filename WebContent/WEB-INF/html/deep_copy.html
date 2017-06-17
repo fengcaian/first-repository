@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>深拷贝</title>
+<script type="text/javascript">
+function _deepCopy(settings, options,map) {
+	if(!map){
+		map = new Map();
+		map.set(settings, settings)
+	}
+	for (var key in options) {
+		console.log(map);
+		if (typeof options[key] == 'object' && options[key]) {
+			if(map.has(options[key])){
+		        settings[key] = map.get(options[key]);
+		        continue;
+		    }
+		    if (!settings.hasOwnProperty(key)) {
+		        settings[key] = {};
+		        map.set(options[key], settings[key]);
+		    }
+		    _deepCopy(settings[key], options[key], map);
+		} else {
+		    settings[key] = options[key];
+		}
+	}
+}
+	var se = {
+	  stu: {
+	    seee: '000',
+	    nn:'nn'
+	  },
+	  kkk: {
+	    s: '555555'
+	  }
+	}
+	var op = {
+	  fff:se,
+	  stuu: {
+	    seee: 'asdfasdfas',
+	    jj: 'lll',
+	    dd:se.stu
+	  }
+	}
+	_deepCopy(se, op);
+	console.log(se);
+
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

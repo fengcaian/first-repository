@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type='text/javascript'>
+window.onload = function(){
+	var user = {
+			name:"tom",
+			gender:"female"
+	}
+	var test = document.getElementById('btn');
+	test.onclick=function(){
+		this.innerHTML = user.name;
+	}
+}
+</script>
+</head>
+<body>
+<div id='btn' style="height:200px;width: 300px;background-color: blue">按钮</div>
+<a href="www.baidu.com">跳转到百度</a>
+</body>
+</html>

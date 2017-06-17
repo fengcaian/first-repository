@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>双向绑定</title>
+<script>
+window.onload=function(){
+	var obj = {};
+	Object.defineProperty(obj,'pro',{
+		set:function(value){
+			document.getElementById('span1').innerHTML = value;
+		}
+	})
+	
+	var input = document.getElementById('input1');
+	input.addEventListener('keyup',function(e){
+		obj.pro = e.target.value;
+	})
+}
+</script>
+</head>
+<body>
+<input id='input1' type='text' style='width:200px'>
+<span id='span1'></span>
+</body>
+</html>

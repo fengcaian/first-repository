@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>js块级作用域</title>
+<script type="text/javascript">
+window.onload = function(){
+	try{
+		undefined();
+	}catch(err){
+		console.log(err);
+		var s = '34';
+	}
+	console.log(s);
+	if(true){
+		let num2 = 2;
+		var num3  = 3;
+		const num4=4;
+		//num4=5;
+	}
+	//console.log('num3='+num3+'-----'+'num2='+num2);//num2 is not unfined
+	
+}
+</script>
+</head>
+<body>
+
+</body>
+</html>
